@@ -1,0 +1,1903 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Modul Praktikum Algoritma Pemrograman — Python</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:ital,wght@0,400;0,600;1,400&family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F9F7F2;
+    --surface: #FFFFFF;
+    --surface2: #F1EEE6;
+    --ink: #1A1A18;
+    --ink2: #4A4A44;
+    --ink3: #888780;
+    --accent: #3C3489;
+    --accent-light: #EEEDFE;
+    --accent2: #0F6E56;
+    --accent2-light: #E1F5EE;
+    --accent3: #993C1D;
+    --accent3-light: #FAECE7;
+    --warn: #854F0B;
+    --warn-light: #FAEEDA;
+    --code-bg: #1E1E2E;
+    --code-fg: #CDD6F4;
+    --code-comment: #6C7086;
+    --code-keyword: #CBA6F7;
+    --code-string: #A6E3A1;
+    --code-number: #FAB387;
+    --code-func: #89B4FA;
+    --code-var: #F38BA8;
+    --border: #D3D1C7;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* COVER */
+  .cover {
+    background: var(--accent);
+    color: #fff;
+    padding: 80px 60px 60px;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 320px; height: 320px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -40px; left: 120px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.04);
+  }
+  .cover-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    opacity: 0.6;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+  .cover-title {
+    font-family: 'Lora', serif;
+    font-size: 42px;
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .cover-subtitle {
+    font-size: 18px;
+    opacity: 0.75;
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 48px;
+    border-top: 1px solid rgba(255,255,255,0.2);
+    padding-top: 24px;
+    font-size: 13px;
+    opacity: 0.7;
+  }
+  .cover-meta-item strong { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; opacity: 0.6; margin-bottom: 4px; }
+
+  /* NAV */
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav-btn {
+    background: none;
+    border: none;
+    padding: 14px 16px;
+    font-size: 13px;
+    font-family: 'DM Sans', sans-serif;
+    color: var(--ink3);
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .nav-btn:hover { color: var(--accent); }
+  .nav-btn.active { color: var(--accent); border-bottom-color: var(--accent); font-weight: 500; }
+
+  /* MAIN */
+  .main { max-width: 900px; margin: 0 auto; padding: 0 24px 80px; }
+
+  /* PERTEMUAN SECTION */
+  .pertemuan {
+    padding-top: 48px;
+    margin-bottom: 0;
+    display: none;
+  }
+  .pertemuan.active { display: block; }
+
+  .pertemuan-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+  .pertemuan-num {
+    background: var(--accent);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 8px 14px;
+    border-radius: var(--radius);
+    white-space: nowrap;
+    margin-top: 4px;
+  }
+  .pertemuan-title {
+    font-family: 'Lora', serif;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .pertemuan-subtitle {
+    font-size: 14px;
+    color: var(--ink3);
+    margin-top: 6px;
+  }
+
+  /* TUJUAN */
+  .tujuan {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 16px 20px;
+    margin-bottom: 28px;
+    font-size: 14px;
+  }
+  .tujuan strong { color: var(--accent); font-size: 11px; letter-spacing: 2px; text-transform: uppercase; display: block; margin-bottom: 8px; }
+  .tujuan ul { padding-left: 18px; }
+  .tujuan li { margin-bottom: 4px; }
+
+  /* SECTION */
+  .section { margin-bottom: 36px; }
+  .section-title {
+    font-family: 'Lora', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-title span {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink3);
+    margin-left: 10px;
+  }
+
+  h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 10px;
+    margin-top: 20px;
+  }
+
+  p { margin-bottom: 12px; color: var(--ink2); }
+
+  /* ALGO BOX */
+  .algo-box {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    margin-bottom: 16px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+    color: var(--ink2);
+  }
+  .algo-box .algo-title {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .algo-box .algo-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .algo-box .kw { color: var(--accent); font-weight: 600; }
+  .algo-box .kw2 { color: var(--accent2); font-weight: 600; }
+  .algo-box .cmt { color: var(--ink3); font-style: italic; }
+  .algo-box .indent1 { padding-left: 24px; }
+  .algo-box .indent2 { padding-left: 48px; }
+  .algo-box .indent3 { padding-left: 72px; }
+
+  /* CODE BOX */
+  .code-wrap { margin-bottom: 16px; }
+  .code-label {
+    background: var(--code-bg);
+    color: var(--code-comment);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    padding: 8px 16px;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .code-label::before {
+    content: '';
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--code-keyword);
+    opacity: 0.7;
+  }
+  pre {
+    background: var(--code-bg);
+    color: var(--code-fg);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    padding: 20px 20px;
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    overflow-x: auto;
+    line-height: 1.7;
+  }
+  .kw { color: var(--code-keyword); }
+  .fn { color: var(--code-func); }
+  .st { color: var(--code-string); }
+  .nm { color: var(--code-number); }
+  .cm { color: var(--code-comment); font-style: italic; }
+  .vr { color: var(--code-var); }
+
+  /* OUTPUT BOX */
+  .output-box {
+    background: #0D1117;
+    border: 1px solid #30363D;
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: #7EE787;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+  .output-box .out-label {
+    color: #8B949E;
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  /* TRACE TABLE */
+  .trace-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    margin-bottom: 16px;
+  }
+  .trace-table th {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 14px;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+  }
+  .trace-table th:first-child { border-radius: var(--radius) 0 0 0; }
+  .trace-table th:last-child { border-radius: 0 var(--radius) 0 0; }
+  .trace-table td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--ink2);
+  }
+  .trace-table tr:last-child td:first-child { border-radius: 0 0 0 var(--radius); }
+  .trace-table tr:last-child td:last-child { border-radius: 0 0 var(--radius) 0; }
+  .trace-table tr:nth-child(even) td { background: var(--surface2); }
+  .trace-table .highlight td { background: var(--accent-light) !important; color: var(--accent); font-weight: 600; }
+
+  /* NOTE BOX */
+  .note {
+    background: var(--warn-light);
+    border-left: 3px solid var(--warn);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: var(--warn);
+  }
+  .note strong { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+
+  .info {
+    background: var(--accent2-light);
+    border-left: 3px solid var(--accent2);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    padding: 14px 18px;
+    font-size: 14px;
+    margin-bottom: 16px;
+    color: var(--accent2);
+  }
+  .info strong { display: block; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+
+  /* LATIHAN */
+  .latihan {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 20px 24px;
+    margin-top: 32px;
+  }
+  .latihan-title {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent3);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .latihan-title::before {
+    content: '';
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--accent3);
+    border-radius: 50%;
+  }
+  .latihan ol { padding-left: 20px; }
+  .latihan li { margin-bottom: 8px; font-size: 14px; color: var(--ink2); }
+
+  /* TOC */
+  .toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    margin: 32px 0;
+  }
+  .toc-title { font-family: 'Lora', serif; font-size: 18px; font-weight: 600; margin-bottom: 20px; }
+  .toc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .toc-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px;
+    border-radius: var(--radius);
+    cursor: pointer;
+    transition: background 0.15s;
+    border: 1px solid transparent;
+  }
+  .toc-item:hover { background: var(--accent-light); border-color: var(--accent); }
+  .toc-num { font-size: 11px; font-weight: 700; color: var(--accent); background: var(--accent-light); padding: 3px 8px; border-radius: 4px; white-space: nowrap; }
+  .toc-text { font-size: 13px; color: var(--ink2); line-height: 1.4; }
+  .toc-text strong { display: block; color: var(--ink); font-size: 14px; margin-bottom: 2px; }
+
+  /* CT CARDS */
+  .ct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 20px; }
+  .ct-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+  }
+  .ct-card-icon { font-size: 28px; margin-bottom: 10px; }
+  .ct-card-title { font-weight: 600; font-size: 15px; color: var(--ink); margin-bottom: 6px; }
+  .ct-card-body { font-size: 13px; color: var(--ink2); line-height: 1.5; }
+
+  @media (max-width: 600px) {
+    .cover { padding: 48px 24px 40px; }
+    .cover-title { font-size: 28px; }
+    .toc-grid { grid-template-columns: 1fr; }
+    .ct-grid { grid-template-columns: 1fr; }
+    .pertemuan-header { flex-direction: column; gap: 10px; }
+  }
+
+  @media print {
+    .nav { display: none; }
+    .pertemuan { display: block !important; page-break-before: always; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">Modul Praktikum</div>
+  <div class="cover-title">Algoritma &amp;<br>Pemrograman</div>
+  <div class="cover-subtitle">Implementasi dengan Python — 7 Pertemuan</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><strong>Mata Kuliah</strong>Algoritma Pemrograman</div>
+    <div class="cover-meta-item"><strong>Bahasa</strong>Python 3.x</div>
+    <div class="cover-meta-item"><strong>Metode</strong>Pseudocode → Kode</div>
+    <div class="cover-meta-item"><strong>Pertemuan</strong>7 Sesi Praktikum</div>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <button class="nav-btn active" onclick="showSection('home')">Pendahuluan</button>
+  <button class="nav-btn" onclick="showSection('p1')">P1 — Fungsi</button>
+  <button class="nav-btn" onclick="showSection('p2')">P2 — Prosedur</button>
+  <button class="nav-btn" onclick="showSection('p3')">P3 — Array (Larik)</button>
+  <button class="nav-btn" onclick="showSection('p4')">P4 — Searching</button>
+  <button class="nav-btn" onclick="showSection('p5')">P5 — Sorting Pt. 1</button>
+  <button class="nav-btn" onclick="showSection('p6')">P6 — Sorting Pt. 2</button>
+  <button class="nav-btn" onclick="showSection('p7')">P7 — Computational Thinking</button>
+</nav>
+
+<div class="main">
+
+<!-- HOME -->
+<div id="home" class="pertemuan active">
+  <div style="padding-top: 40px;">
+    <h2 style="font-family:'Lora',serif; font-size:26px; font-weight:600; margin-bottom:12px;">Tentang Modul Ini</h2>
+    <p>Modul ini disusun untuk mendukung perkuliahan <strong>Algoritma Pemrograman</strong> dengan bahasa Python. Setiap topik disajikan menggunakan pendekatan dua tahap: <em>notasi algoritma (pseudocode)</em> terlebih dahulu, kemudian implementasi dalam sintaks Python.</p>
+    <p>Pendekatan ini membantu mahasiswa memahami <em>logika berpikir algoritmik</em> yang bebas bahasa, sebelum belajar detail sintaks pemrograman.</p>
+
+    <div class="toc">
+      <div class="toc-title">Daftar Isi — 7 Pertemuan</div>
+      <div class="toc-grid">
+        <div class="toc-item" onclick="showSection('p1')"><span class="toc-num">P-1</span><div class="toc-text"><strong>Fungsi</strong>Definisi, parameter, nilai kembalian, tracing</div></div>
+        <div class="toc-item" onclick="showSection('p2')"><span class="toc-num">P-2</span><div class="toc-text"><strong>Prosedur</strong>Perbedaan fungsi-prosedur, pass by reference</div></div>
+        <div class="toc-item" onclick="showSection('p3')"><span class="toc-num">P-3</span><div class="toc-text"><strong>Array (Larik)</strong>Deklarasi, input/output, traversal, operasi dasar</div></div>
+        <div class="toc-item" onclick="showSection('p4')"><span class="toc-num">P-4</span><div class="toc-text"><strong>Array — Searching</strong>Sequential search &amp; binary search</div></div>
+        <div class="toc-item" onclick="showSection('p5')"><span class="toc-num">P-5</span><div class="toc-text"><strong>Array Sorting Pt. 1</strong>Bubble sort &amp; selection sort</div></div>
+        <div class="toc-item" onclick="showSection('p6')"><span class="toc-num">P-6</span><div class="toc-text"><strong>Array Sorting Pt. 2</strong>Insertion sort &amp; perbandingan algoritma</div></div>
+        <div class="toc-item" onclick="showSection('p7')"><span class="toc-num">P-7</span><div class="toc-text"><strong>Computational Thinking</strong>Dekomposisi, abstraksi, pattern recognition, algoritma</div></div>
+      </div>
+    </div>
+
+    <div class="info">
+      <strong>Konvensi Pseudocode</strong>
+      Modul ini menggunakan konvensi pseudocode yang umum di perkuliahan algoritma Indonesia: ALGORITMA, DEKLARASI, DESKRIPSI, FUNCTION, PROCEDURE, IF...THEN...ELSE, FOR, WHILE, REPEAT...UNTIL, RETURN.
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 1 — FUNGSI -->
+<!-- ============================================================ -->
+<div id="p1" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 1</div>
+    <div>
+      <div class="pertemuan-title">Fungsi<br><small style="font-size:18px;color:var(--ink3);">Definisi, Parameter &amp; Nilai Kembalian</small></div>
+      <div class="pertemuan-subtitle">Memahami konsep fungsi, cara mendefinisikan, parameter, dan return value</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Memahami konsep modularisasi dan fungsi dalam algoritma</li>
+      <li>Mampu menulis notasi pseudocode untuk mendefinisikan fungsi</li>
+      <li>Mampu mengimplementasikan fungsi dalam Python</li>
+      <li>Memahami parameter formal, aktual, dan nilai kembalian</li>
+      <li>Mampu melakukan tracing eksekusi fungsi</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Dasar Teori <span>Konsep Fungsi</span></div>
+    <p><strong>Fungsi</strong> adalah unit program yang melakukan tugas tertentu dan <em>mengembalikan sebuah nilai</em> kepada pemanggilnya. Fungsi merupakan salah satu bentuk modularisasi yang memecah program besar menjadi unit-unit kecil yang lebih mudah dikelola.</p>
+    <p>Komponen utama fungsi:</p>
+    <ul style="padding-left:20px; color:var(--ink2); margin-bottom:12px;">
+      <li><strong>Nama fungsi</strong> — pengenal unik</li>
+      <li><strong>Parameter masukan</strong> — data yang diterima fungsi</li>
+      <li><strong>Tipe nilai kembalian</strong> — tipe data yang dikembalikan</li>
+      <li><strong>Badan fungsi</strong> — instruksi-instruksi di dalamnya</li>
+    </ul>
+    <div class="info">
+      <strong>Fungsi vs Prosedur</strong>
+      Fungsi <em>selalu mengembalikan nilai</em> (return). Prosedur melakukan aksi tanpa mengembalikan nilai. Dalam Python, keduanya ditulis dengan <code>def</code>, namun fungsi memiliki pernyataan <code>return nilai</code>.
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Pendefinisian Fungsi</div>
+
+    <h4>2.1 Notasi Pseudocode — Fungsi Luas Persegi Panjang</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode</div>
+      <div><span class="kw">FUNCTION</span> HitungLuas(panjang : integer, lebar : integer) <span class="kw">→</span> integer</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">luas : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">luas ← panjang × lebar</div>
+      <div class="indent1"><span class="kw">RETURN</span> luas</div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+
+    <h4>2.2 Implementasi Python</h4>
+    <div class="code-wrap">
+      <div class="code-label">fungsi_luas.py</div>
+      <pre><span class="kw">def</span> <span class="fn">hitung_luas</span>(panjang, lebar):
+    <span class="cm">"""Menghitung luas persegi panjang."""</span>
+    luas = panjang * lebar
+    <span class="kw">return</span> luas
+
+<span class="cm"># Pemanggilan fungsi</span>
+hasil = <span class="fn">hitung_luas</span>(<span class="nm">10</span>, <span class="nm">5</span>)
+<span class="fn">print</span>(<span class="st">f"Luas: </span><span class="vr">{hasil}</span><span class="st">"</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Luas: 50
+    </div>
+
+    <h4>2.3 Fungsi dengan Parameter Default</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Parameter Default</div>
+      <div><span class="kw">FUNCTION</span> Salam(nama : string, waktu : string = <span class="kw2">"Pagi"</span>) <span class="kw">→</span> string</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1"><span class="kw">RETURN</span> "Selamat " + waktu + ", " + nama + "!"</div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">fungsi_salam.py</div>
+      <pre><span class="kw">def</span> <span class="fn">salam</span>(nama, waktu=<span class="st">"Pagi"</span>):
+    <span class="kw">return</span> <span class="st">f"Selamat </span><span class="vr">{waktu}</span><span class="st">, </span><span class="vr">{nama}</span><span class="st">!"</span>
+
+<span class="fn">print</span>(<span class="fn">salam</span>(<span class="st">"Budi"</span>))             <span class="cm"># pakai default</span>
+<span class="fn">print</span>(<span class="fn">salam</span>(<span class="st">"Ani"</span>, <span class="st">"Sore"</span>))     <span class="cm"># override default</span></pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Selamat Pagi, Budi!<br>
+      Selamat Sore, Ani!
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Contoh Fungsi Lengkap</div>
+
+    <h4>3.1 Fungsi Mencari Nilai Maksimum Tiga Bilangan</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode</div>
+      <div><span class="kw">FUNCTION</span> Maks3(a : integer, b : integer, c : integer) <span class="kw">→</span> integer</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">maks : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">maks ← a</div>
+      <div class="indent1"><span class="kw">IF</span> b > maks <span class="kw">THEN</span></div>
+      <div class="indent2">maks ← b</div>
+      <div class="indent1"><span class="kw">END IF</span></div>
+      <div class="indent1"><span class="kw">IF</span> c > maks <span class="kw">THEN</span></div>
+      <div class="indent2">maks ← c</div>
+      <div class="indent1"><span class="kw">END IF</span></div>
+      <div class="indent1"><span class="kw">RETURN</span> maks</div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">maks3.py</div>
+      <pre><span class="kw">def</span> <span class="fn">maks3</span>(a, b, c):
+    maks = a
+    <span class="kw">if</span> b > maks:
+        maks = b
+    <span class="kw">if</span> c > maks:
+        maks = c
+    <span class="kw">return</span> maks
+
+hasil = <span class="fn">maks3</span>(<span class="nm">15</span>, <span class="nm">42</span>, <span class="nm">7</span>)
+<span class="fn">print</span>(<span class="st">f"Nilai maksimum: </span><span class="vr">{hasil}</span><span class="st">"</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Nilai maksimum: 42
+    </div>
+
+    <h4>3.2 Tracing Fungsi maks3(15, 42, 7)</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Langkah</th><th>Posisi Kode</th><th>a</th><th>b</th><th>c</th><th>maks</th><th>Keterangan</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Panggil maks3(15,42,7)</td><td>15</td><td>42</td><td>7</td><td>-</td><td>Parameter aktual dipasangkan</td></tr>
+        <tr><td>2</td><td>maks = a</td><td>15</td><td>42</td><td>7</td><td>15</td><td>maks diinisialisasi ke a</td></tr>
+        <tr><td>3</td><td>if b &gt; maks (42&gt;15)</td><td>15</td><td>42</td><td>7</td><td>15</td><td>Kondisi TRUE</td></tr>
+        <tr class="highlight"><td>4</td><td>maks = b</td><td>15</td><td>42</td><td>7</td><td>42</td><td>maks diperbarui ke b=42</td></tr>
+        <tr><td>5</td><td>if c &gt; maks (7&gt;42)</td><td>15</td><td>42</td><td>7</td><td>42</td><td>Kondisi FALSE, dilewati</td></tr>
+        <tr class="highlight"><td>6</td><td>return maks</td><td>15</td><td>42</td><td>7</td><td>42</td><td>Kembalikan 42 ke pemanggil</td></tr>
+      </tbody>
+    </table>
+
+    <h4>3.3 Fungsi Konversi Suhu</h4>
+    <div class="code-wrap">
+      <div class="code-label">konversi_suhu.py</div>
+      <pre><span class="kw">def</span> <span class="fn">celsius_ke_fahrenheit</span>(c):
+    <span class="kw">return</span> (c * <span class="nm">9</span> / <span class="nm">5</span>) + <span class="nm">32</span>
+
+<span class="kw">def</span> <span class="fn">celsius_ke_kelvin</span>(c):
+    <span class="kw">return</span> c + <span class="nm">273.15</span>
+
+suhu = <span class="nm">100</span>
+<span class="fn">print</span>(<span class="st">f"{suhu}°C = </span><span class="vr">{celsius_ke_fahrenheit(suhu)}</span><span class="st">°F"</span>)
+<span class="fn">print</span>(<span class="st">f"{suhu}°C = </span><span class="vr">{celsius_ke_kelvin(suhu)}</span><span class="st"> K"</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      100°C = 212.0°F<br>
+      100°C = 373.15 K
+    </div>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 1</div>
+    <ol>
+      <li>Tuliskan pseudocode, lalu implementasikan fungsi <code>hitung_keliling_lingkaran(r)</code> yang menerima jari-jari dan mengembalikan keliling lingkaran (2 × π × r).</li>
+      <li>Buat fungsi <code>adalah_genap(n)</code> yang mengembalikan <code>True</code> jika n genap, <code>False</code> jika ganjil. Tulis pseudocode-nya dahulu.</li>
+      <li>Implementasikan fungsi <code>pangkat(basis, eksponen)</code> tanpa menggunakan operator <code>**</code>. Gunakan perulangan dan tulis tracing-nya untuk <code>pangkat(2, 4)</code>.</li>
+      <li>Buat fungsi <code>rata_rata(a, b, c, d)</code> yang menerima 4 bilangan dan mengembalikan rata-ratanya. Uji dengan beberapa nilai.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 2 — PROSEDUR -->
+<!-- ============================================================ -->
+<div id="p2" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 2</div>
+    <div>
+      <div class="pertemuan-title">Prosedur<br><small style="font-size:18px;color:var(--ink3);">Definisi, Parameter &amp; Perbedaan dengan Fungsi</small></div>
+      <div class="pertemuan-subtitle">Memahami prosedur, parameter masukan/keluaran, dan penggunaan dalam program</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Memahami konsep prosedur dan perbedaannya dengan fungsi</li>
+      <li>Mampu menulis pseudocode prosedur dengan parameter INPUT dan OUTPUT</li>
+      <li>Mampu mengimplementasikan prosedur dalam Python</li>
+      <li>Memahami konsep pass by value vs pass by reference (mutable/immutable)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Dasar Teori <span>Konsep Prosedur</span></div>
+    <p><strong>Prosedur</strong> adalah unit program yang melakukan serangkaian aksi tanpa mengembalikan nilai secara eksplisit. Prosedur digunakan untuk mengelompokkan instruksi yang melakukan suatu tugas (misalnya: mencetak output, mengubah data, dll).</p>
+
+    <table class="trace-table">
+      <thead>
+        <tr><th>Aspek</th><th>Fungsi</th><th>Prosedur</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Nilai kembalian</td><td>Ada (RETURN nilai)</td><td>Tidak ada (atau None)</td></tr>
+        <tr><td>Tujuan utama</td><td>Menghitung &amp; mengembalikan</td><td>Melakukan aksi/proses</td></tr>
+        <tr><td>Digunakan sebagai</td><td>Ekspresi: x = hitung(a)</td><td>Pernyataan: tampilkan(data)</td></tr>
+        <tr><td>Di Python</td><td>def f(): return nilai</td><td>def p(): (tanpa return nilai)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Pendefinisian Prosedur</div>
+
+    <h4>2.1 Prosedur Cetak Garis Pemisah</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode</div>
+      <div><span class="kw">PROCEDURE</span> CetakGaris(panjang : integer, karakter : char)</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">i : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 1 <span class="kw">TO</span> panjang <span class="kw">DO</span></div>
+      <div class="indent2">Tulis(karakter)  <span class="cmt">{ tanpa newline }</span></div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+      <div class="indent1">Tulis("")  <span class="cmt">{ pindah baris }</span></div>
+      <div><span class="kw">END PROCEDURE</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">prosedur_garis.py</div>
+      <pre><span class="kw">def</span> <span class="fn">cetak_garis</span>(panjang, karakter=<span class="st">'-'</span>):
+    <span class="cm">"""Prosedur mencetak garis pemisah."""</span>
+    <span class="fn">print</span>(karakter * panjang)
+
+<span class="cm"># Pemanggilan prosedur</span>
+<span class="fn">cetak_garis</span>(<span class="nm">30</span>)
+<span class="fn">cetak_garis</span>(<span class="nm">20</span>, <span class="st">'='</span>)
+<span class="fn">cetak_garis</span>(<span class="nm">15</span>, <span class="st">'*'</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      ------------------------------<br>
+      ====================<br>
+      ***************
+    </div>
+
+    <h4>2.2 Prosedur dengan Parameter OUTPUT</h4>
+    <p>Dalam Python, untuk memodifikasi variabel dari luar prosedur, kita gunakan <em>list</em> atau <em>dictionary</em> (tipe mutable) sebagai parameter, atau gunakan nilai return (lebih umum di Python).</p>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Prosedur Tukar Dua Nilai</div>
+      <div><span class="kw">PROCEDURE</span> Tukar(INPUT/OUTPUT a : integer, INPUT/OUTPUT b : integer)</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">temp : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">temp ← a</div>
+      <div class="indent1">a ← b</div>
+      <div class="indent1">b ← temp</div>
+      <div><span class="kw">END PROCEDURE</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">prosedur_tukar.py</div>
+      <pre><span class="cm"># Cara 1: Gunakan tuple unpacking (idiom Python)</span>
+<span class="kw">def</span> <span class="fn">tukar</span>(a, b):
+    <span class="kw">return</span> b, a   <span class="cm"># mengembalikan dua nilai</span>
+
+x, y = <span class="nm">10</span>, <span class="nm">20</span>
+<span class="fn">print</span>(<span class="st">f"Sebelum: x={x}, y={y}"</span>)
+x, y = <span class="fn">tukar</span>(x, y)
+<span class="fn">print</span>(<span class="st">f"Sesudah: x={x}, y={y}"</span>)
+
+<span class="cm"># Cara 2: Langsung pakai Python idiom</span>
+x, y = y, x</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Sebelum: x=10, y=20<br>
+      Sesudah: x=20, y=10
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Contoh Prosedur Lengkap</div>
+
+    <h4>3.1 Prosedur Menampilkan Menu</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode</div>
+      <div><span class="kw">PROCEDURE</span> TampilkanMenu()</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">Tulis("===== MENU UTAMA =====")</div>
+      <div class="indent1">Tulis("1. Input Data")</div>
+      <div class="indent1">Tulis("2. Tampilkan Data")</div>
+      <div class="indent1">Tulis("3. Keluar")</div>
+      <div class="indent1">Tulis("=====================")</div>
+      <div><span class="kw">END PROCEDURE</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">prosedur_menu.py</div>
+      <pre><span class="kw">def</span> <span class="fn">tampilkan_menu</span>():
+    <span class="fn">print</span>(<span class="st">"===== MENU UTAMA ====="</span>)
+    <span class="fn">print</span>(<span class="st">"1. Input Data"</span>)
+    <span class="fn">print</span>(<span class="st">"2. Tampilkan Data"</span>)
+    <span class="fn">print</span>(<span class="st">"3. Keluar"</span>)
+    <span class="fn">print</span>(<span class="st">"====================="</span>)
+
+<span class="kw">def</span> <span class="fn">tampilkan_info_mahasiswa</span>(nama, nim, ipk):
+    <span class="fn">print</span>(<span class="st">f"Nama : {nama}"</span>)
+    <span class="fn">print</span>(<span class="st">f"NIM  : {nim}"</span>)
+    <span class="fn">print</span>(<span class="st">f"IPK  : {ipk:.2f}"</span>)
+
+<span class="cm"># Program utama</span>
+<span class="fn">tampilkan_menu</span>()
+<span class="fn">cetak_garis</span> = <span class="kw">lambda</span> n: <span class="fn">print</span>(<span class="st">'-'</span>*n)
+<span class="fn">cetak_garis</span>(<span class="nm">22</span>)
+<span class="fn">tampilkan_info_mahasiswa</span>(<span class="st">"Budi Santoso"</span>, <span class="st">"2023001"</span>, <span class="nm">3.75</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      ===== MENU UTAMA =====<br>
+      1. Input Data<br>
+      2. Tampilkan Data<br>
+      3. Keluar<br>
+      =====================<br>
+      ----------------------<br>
+      Nama : Budi Santoso<br>
+      NIM  : 2023001<br>
+      IPK  : 3.75
+    </div>
+
+    <h4>3.2 Prosedur Hitung &amp; Tampilkan Statistik</h4>
+    <div class="code-wrap">
+      <div class="code-label">prosedur_statistik.py</div>
+      <pre><span class="kw">def</span> <span class="fn">cetak_statistik</span>(data):
+    <span class="cm">"""Prosedur menampilkan statistik deskriptif."""</span>
+    n = <span class="fn">len</span>(data)
+    total = <span class="fn">sum</span>(data)
+    rata = total / n
+    terkecil = <span class="fn">min</span>(data)
+    terbesar = <span class="fn">max</span>(data)
+
+    <span class="fn">print</span>(<span class="st">f"Jumlah data : {n}"</span>)
+    <span class="fn">print</span>(<span class="st">f"Total       : {total}"</span>)
+    <span class="fn">print</span>(<span class="st">f"Rata-rata   : {rata:.2f}"</span>)
+    <span class="fn">print</span>(<span class="st">f"Terkecil    : {terkecil}"</span>)
+    <span class="fn">print</span>(<span class="st">f"Terbesar    : {terbesar}"</span>)
+
+nilai = [<span class="nm">78</span>, <span class="nm">85</span>, <span class="nm">92</span>, <span class="nm">67</span>, <span class="nm">88</span>, <span class="nm">74</span>]
+<span class="fn">cetak_statistik</span>(nilai)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Jumlah data : 6<br>
+      Total       : 484<br>
+      Rata-rata   : 80.67<br>
+      Terkecil    : 67<br>
+      Terbesar    : 92
+    </div>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 2</div>
+    <ol>
+      <li>Buat prosedur <code>cetak_segitiga(tinggi)</code> yang mencetak segitiga bintang. Tulis pseudocode-nya terlebih dahulu.</li>
+      <li>Buat prosedur <code>konversi_dan_tampilkan(celsius)</code> yang menampilkan konversi suhu ke Fahrenheit dan Kelvin (tidak return, hanya print).</li>
+      <li>Implementasikan prosedur <code>cetak_tabel_perkalian(n)</code> yang mencetak tabel perkalian 1 sampai n.</li>
+      <li>Buat program lengkap dengan prosedur <code>input_biodata()</code> yang meminta input nama, usia, dan kota, lalu prosedur <code>tampilkan_biodata(nama, usia, kota)</code> yang mencetaknya dengan format rapi.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 3 — ARRAY (LARIK) -->
+<!-- ============================================================ -->
+<div id="p3" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 3</div>
+    <div>
+      <div class="pertemuan-title">Array (Larik)<br><small style="font-size:18px;color:var(--ink3);">Deklarasi, Input/Output &amp; Operasi Dasar</small></div>
+      <div class="pertemuan-subtitle">Memahami konsep array, cara deklarasi, mengisi, dan memproses elemen</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Memahami konsep array/larik sebagai struktur data</li>
+      <li>Mampu mendeklarasikan array dalam pseudocode dan Python</li>
+      <li>Mampu mengisi dan membaca elemen array dengan perulangan</li>
+      <li>Mampu melakukan operasi dasar: traversal, hitung total, cari min/maks</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Dasar Teori <span>Konsep Array</span></div>
+    <p><strong>Array (larik)</strong> adalah struktur data yang menyimpan sekumpulan nilai bertipe sama dalam satu nama variabel. Setiap elemen diakses melalui <em>indeks</em> bilangan bulat.</p>
+    <div class="info">
+      <strong>Catatan Indeks</strong>
+      Dalam pseudocode (gaya Indonesia), indeks array biasanya dimulai dari <strong>1</strong>. Dalam Python, list dimulai dari indeks <strong>0</strong>. Perhatikan penyesuaian ini saat mengimplementasikan pseudocode ke Python.
+    </div>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Deklarasi Array</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">nilai : <span class="kw">ARRAY</span>[1..5] <span class="kw">OF</span> integer  <span class="cmt">{ array 5 elemen }</span></div>
+      <div class="indent1">nama  : <span class="kw">ARRAY</span>[1..10] <span class="kw">OF</span> string  <span class="cmt">{ array 10 elemen }</span></div>
+      <div class="indent1">N, i  : integer</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">deklarasi_array.py</div>
+      <pre><span class="cm"># Python menggunakan list</span>
+nilai = [<span class="nm">0</span>] * <span class="nm">5</span>           <span class="cm"># list 5 elemen, semua nol</span>
+nama  = [<span class="st">""</span>] * <span class="nm">10</span>          <span class="cm"># list 10 string kosong</span>
+
+<span class="cm"># Atau langsung inisialisasi</span>
+nilai = [<span class="nm">85</span>, <span class="nm">92</span>, <span class="nm">78</span>, <span class="nm">67</span>, <span class="nm">90</span>]
+
+<span class="cm"># Akses elemen (indeks 0-based di Python)</span>
+<span class="fn">print</span>(nilai[<span class="nm">0</span>])  <span class="cm"># elemen pertama → 85</span>
+<span class="fn">print</span>(nilai[<span class="nm">4</span>])  <span class="cm"># elemen kelima  → 90</span></pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Input dan Output Array</div>
+
+    <h4>2.1 Mengisi Array dengan Input Pengguna</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Input Array</div>
+      <div><span class="kw">ALGORITMA</span> InputArray</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">data : <span class="kw">ARRAY</span>[1..N] <span class="kw">OF</span> integer</div>
+      <div class="indent1">N, i : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">Baca(N)</div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 1 <span class="kw">TO</span> N <span class="kw">DO</span></div>
+      <div class="indent2">Tulis("Masukkan elemen ke-", i, ": ")</div>
+      <div class="indent2">Baca(data[i])</div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+      <div><span class="kw">END ALGORITMA</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">input_array.py</div>
+      <pre>N = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Masukkan jumlah elemen: "</span>))
+data = []
+
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, N + <span class="nm">1</span>):
+    x = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">f"Masukkan elemen ke-{i}: "</span>))
+    data.<span class="fn">append</span>(x)
+
+<span class="fn">print</span>(<span class="st">"Array:"</span>, data)</pre>
+    </div>
+
+    <h4>2.2 Menampilkan Elemen Array</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Tampilkan Array</div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 1 <span class="kw">TO</span> N <span class="kw">DO</span></div>
+      <div class="indent2">Tulis("data[", i, "] =", data[i])</div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">tampil_array.py</div>
+      <pre>nilai = [<span class="nm">85</span>, <span class="nm">92</span>, <span class="nm">78</span>, <span class="nm">67</span>, <span class="nm">90</span>]
+
+<span class="kw">for</span> i, v <span class="kw">in</span> <span class="fn">enumerate</span>(nilai, start=<span class="nm">1</span>):
+    <span class="fn">print</span>(<span class="st">f"nilai[{i}] = {v}"</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      nilai[1] = 85<br>nilai[2] = 92<br>nilai[3] = 78<br>nilai[4] = 67<br>nilai[5] = 90
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Operasi Dasar Array</div>
+
+    <h4>3.1 Menghitung Total dan Rata-Rata</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Total dan Rata-rata</div>
+      <div><span class="kw">FUNCTION</span> HitungTotal(data : ARRAY, N : integer) <span class="kw">→</span> integer</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">total, i : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">total ← 0</div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 1 <span class="kw">TO</span> N <span class="kw">DO</span></div>
+      <div class="indent2">total ← total + data[i]</div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+      <div class="indent1"><span class="kw">RETURN</span> total</div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-label">operasi_array.py</div>
+      <pre><span class="kw">def</span> <span class="fn">hitung_total</span>(data):
+    total = <span class="nm">0</span>
+    <span class="kw">for</span> x <span class="kw">in</span> data:
+        total += x
+    <span class="kw">return</span> total
+
+<span class="kw">def</span> <span class="fn">hitung_rata</span>(data):
+    <span class="kw">return</span> <span class="fn">hitung_total</span>(data) / <span class="fn">len</span>(data)
+
+<span class="kw">def</span> <span class="fn">cari_maks</span>(data):
+    maks = data[<span class="nm">0</span>]
+    <span class="kw">for</span> x <span class="kw">in</span> data:
+        <span class="kw">if</span> x > maks:
+            maks = x
+    <span class="kw">return</span> maks
+
+<span class="kw">def</span> <span class="fn">cari_min</span>(data):
+    minimum = data[<span class="nm">0</span>]
+    <span class="kw">for</span> x <span class="kw">in</span> data:
+        <span class="kw">if</span> x < minimum:
+            minimum = x
+    <span class="kw">return</span> minimum
+
+nilai = [<span class="nm">85</span>, <span class="nm">92</span>, <span class="nm">78</span>, <span class="nm">67</span>, <span class="nm">90</span>]
+<span class="fn">print</span>(<span class="st">f"Total   : {hitung_total(nilai)}"</span>)
+<span class="fn">print</span>(<span class="st">f"Rata    : {hitung_rata(nilai):.2f}"</span>)
+<span class="fn">print</span>(<span class="st">f"Maks    : {cari_maks(nilai)}"</span>)
+<span class="fn">print</span>(<span class="st">f"Min     : {cari_min(nilai)}"</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Total   : 412<br>
+      Rata    : 82.40<br>
+      Maks    : 92<br>
+      Min     : 67
+    </div>
+
+    <h4>3.2 Tracing — Fungsi cari_maks([85, 92, 78, 67, 90])</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Iterasi</th><th>x</th><th>x &gt; maks?</th><th>maks</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Awal</td><td>-</td><td>-</td><td>85 (inisialisasi data[0])</td></tr>
+        <tr><td>1</td><td>85</td><td>85&gt;85 → Tidak</td><td>85</td></tr>
+        <tr class="highlight"><td>2</td><td>92</td><td>92&gt;85 → Ya</td><td>92</td></tr>
+        <tr><td>3</td><td>78</td><td>78&gt;92 → Tidak</td><td>92</td></tr>
+        <tr><td>4</td><td>67</td><td>67&gt;92 → Tidak</td><td>92</td></tr>
+        <tr><td>5</td><td>90</td><td>90&gt;92 → Tidak</td><td>92</td></tr>
+        <tr class="highlight"><td>Hasil</td><td>-</td><td>-</td><td>RETURN 92</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 3</div>
+    <ol>
+      <li>Buat program yang menerima input 8 bilangan bulat ke dalam array, kemudian tampilkan semua elemen, total, rata-rata, nilai terbesar, dan nilai terkecil.</li>
+      <li>Buat fungsi <code>hitung_genap_ganjil(data)</code> yang mengembalikan jumlah elemen genap dan ganjil dalam array.</li>
+      <li>Buat fungsi <code>balik_array(data)</code> yang mengembalikan array dalam urutan terbalik <em>tanpa menggunakan</em> <code>[::-1]</code> atau <code>reverse()</code> bawaan. Tulis pseudocode-nya.</li>
+      <li>Buat program manajemen nilai mahasiswa: input nama dan nilai untuk 5 mahasiswa (simpan dalam dua array terpisah), lalu tampilkan daftar beserta keterangan LULUS/TIDAK LULUS (batas nilai 60).</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 4 — ARRAY SEARCHING -->
+<!-- ============================================================ -->
+<div id="p4" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 4</div>
+    <div>
+      <div class="pertemuan-title">Array — Searching<br><small style="font-size:18px;color:var(--ink3);">Sequential Search &amp; Binary Search</small></div>
+      <div class="pertemuan-subtitle">Mencari elemen dalam array dengan dua pendekatan algoritma pencarian</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Memahami konsep pencarian (searching) pada array</li>
+      <li>Mampu mengimplementasikan Sequential Search (Linear Search)</li>
+      <li>Mampu mengimplementasikan Binary Search pada array terurut</li>
+      <li>Memahami perbedaan kompleksitas O(n) vs O(log n)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Sequential Search <span>Linear Search</span></div>
+    <p><strong>Sequential Search</strong> adalah metode pencarian yang memeriksa setiap elemen satu per satu dari awal hingga akhir array, sampai elemen yang dicari ditemukan atau semua elemen telah diperiksa.</p>
+    <p>Kompleksitas waktu: <strong>O(n)</strong> — semakin banyak data, semakin lama pencariannya secara proporsional.</p>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Sequential Search</div>
+      <div><span class="kw">FUNCTION</span> SeqSearch(data : ARRAY, N : integer, kunci : integer) <span class="kw">→</span> integer</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">i : integer</div>
+      <div class="indent1">ketemu : boolean</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">i ← 1</div>
+      <div class="indent1">ketemu ← FALSE</div>
+      <div class="indent1"><span class="kw">WHILE</span> i ≤ N <span class="kw">AND NOT</span> ketemu <span class="kw">DO</span></div>
+      <div class="indent2"><span class="kw">IF</span> data[i] = kunci <span class="kw">THEN</span></div>
+      <div class="indent3">ketemu ← TRUE</div>
+      <div class="indent2"><span class="kw">ELSE</span></div>
+      <div class="indent3">i ← i + 1</div>
+      <div class="indent2"><span class="kw">END IF</span></div>
+      <div class="indent1"><span class="kw">END WHILE</span></div>
+      <div class="indent1"><span class="kw">IF</span> ketemu <span class="kw">THEN</span></div>
+      <div class="indent2"><span class="kw">RETURN</span> i  <span class="cmt">{ indeks posisi }</span></div>
+      <div class="indent1"><span class="kw">ELSE</span></div>
+      <div class="indent2"><span class="kw">RETURN</span> -1  <span class="cmt">{ tidak ditemukan }</span></div>
+      <div class="indent1"><span class="kw">END IF</span></div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">sequential_search.py</div>
+      <pre><span class="kw">def</span> <span class="fn">seq_search</span>(data, kunci):
+    <span class="cm">"""Mencari kunci dalam data, kembalikan indeks atau -1."""</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(data)):
+        <span class="kw">if</span> data[i] == kunci:
+            <span class="kw">return</span> i   <span class="cm"># ditemukan, kembalikan indeks</span>
+    <span class="kw">return</span> -<span class="nm">1</span>             <span class="cm"># tidak ditemukan</span>
+
+data = [<span class="nm">15</span>, <span class="nm">42</span>, <span class="nm">8</span>, <span class="nm">73</span>, <span class="nm">27</span>, <span class="nm">55</span>]
+kunci = <span class="nm">73</span>
+hasil = <span class="fn">seq_search</span>(data, kunci)
+
+<span class="kw">if</span> hasil != -<span class="nm">1</span>:
+    <span class="fn">print</span>(<span class="st">f"Kunci {kunci} ditemukan di indeks {hasil}"</span>)
+<span class="kw">else</span>:
+    <span class="fn">print</span>(<span class="st">f"Kunci {kunci} tidak ditemukan"</span>)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Kunci 73 ditemukan di indeks 3
+    </div>
+
+    <h4>Tracing Sequential Search — kunci=73 pada [15, 42, 8, 73, 27, 55]</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>i</th><th>data[i]</th><th>data[i]==73?</th><th>Aksi</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>15</td><td>Tidak</td><td>Lanjut</td></tr>
+        <tr><td>1</td><td>42</td><td>Tidak</td><td>Lanjut</td></tr>
+        <tr><td>2</td><td>8</td><td>Tidak</td><td>Lanjut</td></tr>
+        <tr class="highlight"><td>3</td><td>73</td><td>Ya</td><td>Return 3 ← DITEMUKAN</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Binary Search</div>
+    <p><strong>Binary Search</strong> hanya dapat diterapkan pada array yang <em>sudah terurut</em>. Cara kerjanya: bandingkan kunci dengan elemen tengah, lalu eliminasi setengah array yang tidak mungkin berisi kunci.</p>
+    <p>Kompleksitas waktu: <strong>O(log n)</strong> — jauh lebih cepat dari sequential search untuk data besar.</p>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Binary Search</div>
+      <div><span class="kw">FUNCTION</span> BinSearch(data : ARRAY, N : integer, kunci : integer) <span class="kw">→</span> integer</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">kiri, kanan, tengah : integer</div>
+      <div class="indent1">ketemu : boolean</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">kiri ← 1</div>
+      <div class="indent1">kanan ← N</div>
+      <div class="indent1">ketemu ← FALSE</div>
+      <div class="indent1"><span class="kw">WHILE</span> kiri ≤ kanan <span class="kw">AND NOT</span> ketemu <span class="kw">DO</span></div>
+      <div class="indent2">tengah ← (kiri + kanan) div 2</div>
+      <div class="indent2"><span class="kw">IF</span> data[tengah] = kunci <span class="kw">THEN</span></div>
+      <div class="indent3">ketemu ← TRUE</div>
+      <div class="indent2"><span class="kw">ELSE IF</span> kunci &lt; data[tengah] <span class="kw">THEN</span></div>
+      <div class="indent3">kanan ← tengah - 1  <span class="cmt">{ cari di kiri }</span></div>
+      <div class="indent2"><span class="kw">ELSE</span></div>
+      <div class="indent3">kiri ← tengah + 1  <span class="cmt">{ cari di kanan }</span></div>
+      <div class="indent2"><span class="kw">END IF</span></div>
+      <div class="indent1"><span class="kw">END WHILE</span></div>
+      <div class="indent1"><span class="kw">IF</span> ketemu <span class="kw">THEN RETURN</span> tengah <span class="kw">ELSE RETURN</span> -1</div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">binary_search.py</div>
+      <pre><span class="kw">def</span> <span class="fn">bin_search</span>(data, kunci):
+    <span class="cm">"""Binary search — data harus sudah terurut ascending."""</span>
+    kiri = <span class="nm">0</span>
+    kanan = <span class="fn">len</span>(data) - <span class="nm">1</span>
+
+    <span class="kw">while</span> kiri <= kanan:
+        tengah = (kiri + kanan) // <span class="nm">2</span>
+        <span class="kw">if</span> data[tengah] == kunci:
+            <span class="kw">return</span> tengah
+        <span class="kw">elif</span> kunci < data[tengah]:
+            kanan = tengah - <span class="nm">1</span>   <span class="cm"># cari di setengah kiri</span>
+        <span class="kw">else</span>:
+            kiri = tengah + <span class="nm">1</span>    <span class="cm"># cari di setengah kanan</span>
+
+    <span class="kw">return</span> -<span class="nm">1</span>   <span class="cm"># tidak ditemukan</span>
+
+data = [<span class="nm">8</span>, <span class="nm">15</span>, <span class="nm">27</span>, <span class="nm">42</span>, <span class="nm">55</span>, <span class="nm">73</span>, <span class="nm">89</span>]  <span class="cm"># sudah terurut</span>
+<span class="fn">print</span>(<span class="fn">bin_search</span>(data, <span class="nm">42</span>))   <span class="cm"># → 3</span>
+<span class="fn">print</span>(<span class="fn">bin_search</span>(data, <span class="nm">100</span>))  <span class="cm"># → -1</span></pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      3<br>-1
+    </div>
+
+    <h4>Tracing Binary Search — kunci=42 pada [8,15,27,42,55,73,89]</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Iterasi</th><th>kiri</th><th>kanan</th><th>tengah</th><th>data[tengah]</th><th>Aksi</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>0</td><td>6</td><td>3</td><td>42</td><td class="highlight" style="color:var(--accent2);font-weight:600;">DITEMUKAN — Return 3</td></tr>
+      </tbody>
+    </table>
+
+    <h4>Tracing Binary Search — kunci=55 pada [8,15,27,42,55,73,89]</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Iterasi</th><th>kiri</th><th>kanan</th><th>tengah</th><th>data[tengah]</th><th>Aksi</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>0</td><td>6</td><td>3</td><td>42</td><td>55&gt;42, kiri=4</td></tr>
+        <tr class="highlight"><td>2</td><td>4</td><td>6</td><td>5</td><td>73</td><td>55&lt;73, kanan=4</td></tr>
+        <tr class="highlight"><td>3</td><td>4</td><td>4</td><td>4</td><td>55</td><td>DITEMUKAN — Return 4</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section">
+      <div class="section-title">3. Perbandingan Sequential vs Binary Search</div>
+      <table class="trace-table">
+        <thead>
+          <tr><th>Aspek</th><th>Sequential Search</th><th>Binary Search</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Syarat data</td><td>Bebas (tidak perlu terurut)</td><td>Harus terurut</td></tr>
+          <tr><td>Kompleksitas</td><td>O(n)</td><td>O(log n)</td></tr>
+          <tr><td>100 data, worst case</td><td>100 perbandingan</td><td>7 perbandingan</td></tr>
+          <tr><td>1.000.000 data, worst case</td><td>1.000.000 perbandingan</td><td>20 perbandingan</td></tr>
+          <tr><td>Ideal untuk</td><td>Data kecil, data tidak terurut</td><td>Data besar, sudah terurut</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 4</div>
+    <ol>
+      <li>Modifikasi fungsi <code>seq_search</code> agar mengembalikan <em>semua</em> indeks kemunculan kunci (bukan hanya yang pertama). Uji dengan array yang berisi elemen duplikat.</li>
+      <li>Implementasikan Binary Search secara <em>rekursif</em> (fungsi memanggil dirinya sendiri). Tulis pseudocode-nya terlebih dahulu.</li>
+      <li>Buat program pencarian data mahasiswa: simpan NIM dalam array terurut, kemudian gunakan binary search untuk mencari NIM yang diinputkan pengguna.</li>
+      <li>Bandingkan jumlah langkah yang diperlukan sequential search vs binary search untuk mencari nilai tertentu pada array berisi 20 elemen terurut. Catat hasilnya dalam tabel.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 5 — SORTING PT.1 -->
+<!-- ============================================================ -->
+<div id="p5" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 5</div>
+    <div>
+      <div class="pertemuan-title">Array Sorting — Bagian 1<br><small style="font-size:18px;color:var(--ink3);">Bubble Sort &amp; Selection Sort</small></div>
+      <div class="pertemuan-subtitle">Mempelajari dua algoritma pengurutan dasar beserta tracing dan implementasi</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Memahami konsep pengurutan (sorting) dan kegunaannya</li>
+      <li>Mampu mengimplementasikan Bubble Sort beserta tracingnya</li>
+      <li>Mampu mengimplementasikan Selection Sort beserta tracingnya</li>
+      <li>Memahami konsep pertukaran (swap) elemen array</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Bubble Sort</div>
+    <p><strong>Bubble Sort</strong> bekerja dengan cara membandingkan dua elemen yang bersebelahan dan menukarnya jika urutannya salah. Proses ini diulang terus sampai tidak ada pertukaran yang terjadi.</p>
+    <p>Nama "bubble" karena elemen terbesar secara bertahap "menggelembung" ke akhir array pada setiap pass.</p>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Bubble Sort</div>
+      <div><span class="kw">PROCEDURE</span> BubbleSort(INPUT/OUTPUT arr : ARRAY OF integer, INPUT n : integer)</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">i, j, temp : integer</div>
+      <div class="indent1">tukar : boolean</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 1 <span class="kw">TO</span> n-1 <span class="kw">DO</span></div>
+      <div class="indent2">tukar ← FALSE</div>
+      <div class="indent2"><span class="kw">FOR</span> j ← 1 <span class="kw">TO</span> n-i <span class="kw">DO</span></div>
+      <div class="indent3"><span class="kw">IF</span> arr[j] > arr[j+1] <span class="kw">THEN</span></div>
+      <div class="indent3" style="padding-left:96px;">temp ← arr[j]</div>
+      <div class="indent3" style="padding-left:96px;">arr[j] ← arr[j+1]</div>
+      <div class="indent3" style="padding-left:96px;">arr[j+1] ← temp</div>
+      <div class="indent3" style="padding-left:96px;">tukar ← TRUE</div>
+      <div class="indent3"><span class="kw">END IF</span></div>
+      <div class="indent2"><span class="kw">END FOR</span></div>
+      <div class="indent2"><span class="kw">IF NOT</span> tukar <span class="kw">THEN BREAK</span>  <span class="cmt">{ optimasi: hentikan jika sudah terurut }</span></div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+      <div><span class="kw">END PROCEDURE</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">bubble_sort.py</div>
+      <pre><span class="kw">def</span> <span class="fn">bubble_sort</span>(arr):
+    n = <span class="fn">len</span>(arr)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n - <span class="nm">1</span>):
+        tukar = <span class="kw">False</span>
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(n - <span class="nm">1</span> - i):
+            <span class="kw">if</span> arr[j] > arr[j + <span class="nm">1</span>]:
+                arr[j], arr[j + <span class="nm">1</span>] = arr[j + <span class="nm">1</span>], arr[j]
+                tukar = <span class="kw">True</span>
+        <span class="kw">if not</span> tukar:
+            <span class="kw">break</span>   <span class="cm"># sudah terurut, hentikan</span>
+    <span class="kw">return</span> arr
+
+data = [<span class="nm">64</span>, <span class="nm">34</span>, <span class="nm">25</span>, <span class="nm">12</span>, <span class="nm">22</span>]
+<span class="fn">print</span>(<span class="st">"Sebelum:"</span>, data)
+<span class="fn">bubble_sort</span>(data)
+<span class="fn">print</span>(<span class="st">"Sesudah:"</span>, data)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Sebelum: [64, 34, 25, 12, 22]<br>
+      Sesudah: [12, 22, 25, 34, 64]
+    </div>
+
+    <h4>Tracing Bubble Sort — Pass 1 pada [64, 34, 25, 12, 22]</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>j</th><th>Dibandingkan</th><th>Tukar?</th><th>Array setelah langkah</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>0</td><td>arr[0]=64 vs arr[1]=34</td><td>Ya (64&gt;34)</td><td>[34, 64, 25, 12, 22]</td></tr>
+        <tr><td>1</td><td>arr[1]=64 vs arr[2]=25</td><td>Ya (64&gt;25)</td><td>[34, 25, 64, 12, 22]</td></tr>
+        <tr><td>2</td><td>arr[2]=64 vs arr[3]=12</td><td>Ya (64&gt;12)</td><td>[34, 25, 12, 64, 22]</td></tr>
+        <tr class="highlight"><td>3</td><td>arr[3]=64 vs arr[4]=22</td><td>Ya (64&gt;22)</td><td>[34, 25, 12, 22, 64] ← 64 "menggelembung" ke akhir</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Selection Sort</div>
+    <p><strong>Selection Sort</strong> bekerja dengan cara <em>mencari elemen terkecil</em> dari bagian array yang belum terurut, lalu menukarnya dengan elemen pertama dari bagian tersebut.</p>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Selection Sort</div>
+      <div><span class="kw">PROCEDURE</span> SelectionSort(INPUT/OUTPUT arr : ARRAY OF integer, INPUT n : integer)</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">i, j, idx_min, temp : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 1 <span class="kw">TO</span> n-1 <span class="kw">DO</span></div>
+      <div class="indent2">idx_min ← i  <span class="cmt">{ anggap elemen i adalah yang terkecil }</span></div>
+      <div class="indent2"><span class="kw">FOR</span> j ← i+1 <span class="kw">TO</span> n <span class="kw">DO</span></div>
+      <div class="indent3"><span class="kw">IF</span> arr[j] &lt; arr[idx_min] <span class="kw">THEN</span></div>
+      <div class="indent3" style="padding-left:96px;">idx_min ← j</div>
+      <div class="indent3"><span class="kw">END IF</span></div>
+      <div class="indent2"><span class="kw">END FOR</span></div>
+      <div class="indent2"><span class="kw">IF</span> idx_min ≠ i <span class="kw">THEN</span>  <span class="cmt">{ tukar jika perlu }</span></div>
+      <div class="indent3">temp ← arr[i]  ;  arr[i] ← arr[idx_min]  ;  arr[idx_min] ← temp</div>
+      <div class="indent2"><span class="kw">END IF</span></div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+      <div><span class="kw">END PROCEDURE</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">selection_sort.py</div>
+      <pre><span class="kw">def</span> <span class="fn">selection_sort</span>(arr):
+    n = <span class="fn">len</span>(arr)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n - <span class="nm">1</span>):
+        idx_min = i
+        <span class="kw">for</span> j <span class="kw">in</span> <span class="fn">range</span>(i + <span class="nm">1</span>, n):
+            <span class="kw">if</span> arr[j] < arr[idx_min]:
+                idx_min = j
+        <span class="kw">if</span> idx_min != i:
+            arr[i], arr[idx_min] = arr[idx_min], arr[i]
+    <span class="kw">return</span> arr
+
+data = [<span class="nm">64</span>, <span class="nm">25</span>, <span class="nm">12</span>, <span class="nm">22</span>, <span class="nm">11</span>]
+<span class="fn">print</span>(<span class="st">"Sebelum:"</span>, data)
+<span class="fn">selection_sort</span>(data)
+<span class="fn">print</span>(<span class="st">"Sesudah:"</span>, data)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Sebelum: [64, 25, 12, 22, 11]<br>
+      Sesudah: [11, 12, 22, 25, 64]
+    </div>
+
+    <h4>Tracing Selection Sort pada [64, 25, 12, 22, 11]</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Pass (i)</th><th>idx_min</th><th>Elemen terkecil ditemukan</th><th>Array setelah swap</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>i=0</td><td>4</td><td>arr[4]=11 adalah terkecil</td><td>[11, 25, 12, 22, 64]</td></tr>
+        <tr><td>i=1</td><td>2</td><td>arr[2]=12 adalah terkecil</td><td>[11, 12, 25, 22, 64]</td></tr>
+        <tr><td>i=2</td><td>3</td><td>arr[3]=22 adalah terkecil</td><td>[11, 12, 22, 25, 64]</td></tr>
+        <tr class="highlight"><td>i=3</td><td>3</td><td>arr[3]=25, tidak perlu swap</td><td>[11, 12, 22, 25, 64] ✓ Selesai</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 5</div>
+    <ol>
+      <li>Modifikasi Bubble Sort agar mengurutkan secara <em>descending</em> (besar ke kecil). Tuliskan bagian pseudocode yang berubah.</li>
+      <li>Lakukan tracing Bubble Sort secara <em>lengkap</em> (semua pass) untuk array [5, 3, 8, 1, 9]. Buat tabel tracing untuk setiap pass.</li>
+      <li>Modifikasi Selection Sort untuk mengurutkan array of string (nama) secara alfabetis.</li>
+      <li>Hitung jumlah perbandingan dan pertukaran yang dilakukan Bubble Sort vs Selection Sort untuk array [9, 8, 7, 6, 5, 4, 3, 2, 1] (worst case). Mana yang lebih sedikit pertukarannya?</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 6 — SORTING PT.2 -->
+<!-- ============================================================ -->
+<div id="p6" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 6</div>
+    <div>
+      <div class="pertemuan-title">Array Sorting — Bagian 2<br><small style="font-size:18px;color:var(--ink3);">Insertion Sort &amp; Perbandingan Algoritma</small></div>
+      <div class="pertemuan-subtitle">Insertion Sort, analisis kompleksitas, dan perbandingan ketiga algoritma sorting</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Mampu mengimplementasikan Insertion Sort beserta tracingnya</li>
+      <li>Memahami perbandingan kompleksitas tiga algoritma sorting</li>
+      <li>Mampu menentukan algoritma sorting yang tepat sesuai kondisi data</li>
+      <li>Mampu mengintegrasikan sorting dengan fitur program lain (search, tampil)</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Insertion Sort</div>
+    <p><strong>Insertion Sort</strong> bekerja seperti menyusun kartu: setiap elemen baru <em>disisipkan ke posisi yang tepat</em> di bagian array yang sudah terurut.</p>
+
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Insertion Sort</div>
+      <div><span class="kw">PROCEDURE</span> InsertionSort(INPUT/OUTPUT arr : ARRAY OF integer, INPUT n : integer)</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">i, j, kunci : integer</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1"><span class="kw">FOR</span> i ← 2 <span class="kw">TO</span> n <span class="kw">DO</span></div>
+      <div class="indent2">kunci ← arr[i]  <span class="cmt">{ elemen yang akan disisipkan }</span></div>
+      <div class="indent2">j ← i - 1</div>
+      <div class="indent2"><span class="kw">WHILE</span> j ≥ 1 <span class="kw">AND</span> arr[j] > kunci <span class="kw">DO</span></div>
+      <div class="indent3">arr[j+1] ← arr[j]  <span class="cmt">{ geser elemen ke kanan }</span></div>
+      <div class="indent3">j ← j - 1</div>
+      <div class="indent2"><span class="kw">END WHILE</span></div>
+      <div class="indent2">arr[j+1] ← kunci  <span class="cmt">{ sisipkan di posisi yang tepat }</span></div>
+      <div class="indent1"><span class="kw">END FOR</span></div>
+      <div><span class="kw">END PROCEDURE</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">insertion_sort.py</div>
+      <pre><span class="kw">def</span> <span class="fn">insertion_sort</span>(arr):
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="fn">len</span>(arr)):
+        kunci = arr[i]
+        j = i - <span class="nm">1</span>
+        <span class="cm"># Geser elemen yang lebih besar ke kanan</span>
+        <span class="kw">while</span> j >= <span class="nm">0</span> <span class="kw">and</span> arr[j] > kunci:
+            arr[j + <span class="nm">1</span>] = arr[j]
+            j -= <span class="nm">1</span>
+        arr[j + <span class="nm">1</span>] = kunci   <span class="cm"># sisipkan kunci</span>
+    <span class="kw">return</span> arr
+
+data = [<span class="nm">12</span>, <span class="nm">11</span>, <span class="nm">13</span>, <span class="nm">5</span>, <span class="nm">6</span>]
+<span class="fn">print</span>(<span class="st">"Sebelum:"</span>, data)
+<span class="fn">insertion_sort</span>(data)
+<span class="fn">print</span>(<span class="st">"Sesudah:"</span>, data)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Sebelum: [12, 11, 13, 5, 6]<br>
+      Sesudah: [5, 6, 11, 12, 13]
+    </div>
+
+    <h4>Tracing Insertion Sort pada [12, 11, 13, 5, 6]</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Pass (i)</th><th>kunci</th><th>Array setelah pass</th><th>Keterangan</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>i=1</td><td>11</td><td>[11, 12, 13, 5, 6]</td><td>11 disisipkan sebelum 12</td></tr>
+        <tr><td>i=2</td><td>13</td><td>[11, 12, 13, 5, 6]</td><td>13 sudah di posisi yang benar</td></tr>
+        <tr><td>i=3</td><td>5</td><td>[5, 11, 12, 13, 6]</td><td>5 disisipkan di awal</td></tr>
+        <tr class="highlight"><td>i=4</td><td>6</td><td>[5, 6, 11, 12, 13]</td><td>6 disisipkan setelah 5 — Selesai!</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Perbandingan Ketiga Algoritma Sorting</div>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Algoritma</th><th>Best Case</th><th>Average</th><th>Worst Case</th><th>Stabil?</th><th>Ideal untuk</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Bubble Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Ya</td><td>Data kecil, pembelajaran</td></tr>
+        <tr><td>Selection Sort</td><td>O(n²)</td><td>O(n²)</td><td>O(n²)</td><td>Tidak</td><td>Data kecil, memori terbatas</td></tr>
+        <tr><td>Insertion Sort</td><td>O(n)</td><td>O(n²)</td><td>O(n²)</td><td>Ya</td><td>Data hampir terurut, data kecil</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-wrap">
+      <div class="code-label">demo_semua_sort.py</div>
+      <pre><span class="kw">import</span> copy
+
+<span class="kw">def</span> <span class="fn">bubble_sort</span>(arr): <span class="cm">...</span>
+<span class="kw">def</span> <span class="fn">selection_sort</span>(arr): <span class="cm">...</span>
+<span class="kw">def</span> <span class="fn">insertion_sort</span>(arr): <span class="cm">...</span>
+
+data_awal = [<span class="nm">64</span>, <span class="nm">34</span>, <span class="nm">25</span>, <span class="nm">12</span>, <span class="nm">22</span>, <span class="nm">11</span>, <span class="nm">90</span>]
+<span class="fn">print</span>(<span class="st">"Data awal     :"</span>, data_awal)
+
+d1 = copy.<span class="fn">copy</span>(data_awal)
+<span class="fn">print</span>(<span class="st">"Bubble Sort   :"</span>, <span class="fn">bubble_sort</span>(d1))
+
+d2 = copy.<span class="fn">copy</span>(data_awal)
+<span class="fn">print</span>(<span class="st">"Selection Sort:"</span>, <span class="fn">selection_sort</span>(d2))
+
+d3 = copy.<span class="fn">copy</span>(data_awal)
+<span class="fn">print</span>(<span class="st">"Insertion Sort:"</span>, <span class="fn">insertion_sort</span>(d3))</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Output</div>
+      Data awal     : [64, 34, 25, 12, 22, 11, 90]<br>
+      Bubble Sort   : [11, 12, 22, 25, 34, 64, 90]<br>
+      Selection Sort: [11, 12, 22, 25, 34, 64, 90]<br>
+      Insertion Sort: [11, 12, 22, 25, 34, 64, 90]
+    </div>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 6</div>
+    <ol>
+      <li>Modifikasi ketiga algoritma sort agar bisa mengurutkan secara <em>descending</em>. Tulis pseudocode perubahan yang diperlukan.</li>
+      <li>Buat program yang mengurutkan array of string (nama mahasiswa) secara alfabetis menggunakan Insertion Sort.</li>
+      <li>Buat fungsi <code>counting_sort(arr)</code> sebagai tantangan tambahan — algoritma sort O(n) yang bekerja untuk bilangan bulat non-negatif.</li>
+      <li><strong>Tugas Proyek:</strong> Buat program manajemen nilai mahasiswa dengan fitur: (a) input data nama + nilai, (b) tampilkan data terurut berdasarkan nilai menggunakan salah satu algoritma sort, (c) cari mahasiswa berdasarkan nama menggunakan sequential search. Program harus termodularisasi dengan fungsi dan prosedur.</li>
+    </ol>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- PERTEMUAN 7 — COMPUTATIONAL THINKING -->
+<!-- ============================================================ -->
+<div id="p7" class="pertemuan">
+  <div class="pertemuan-header">
+    <div class="pertemuan-num">Pertemuan 7</div>
+    <div>
+      <div class="pertemuan-title">Computational Thinking<br><small style="font-size:18px;color:var(--ink3);">Berpikir Komputasional untuk Pemecahan Masalah</small></div>
+      <div class="pertemuan-subtitle">Memahami dan menerapkan empat pilar computational thinking dalam pemrograman</div>
+    </div>
+  </div>
+
+  <div class="tujuan">
+    <strong>Tujuan Pembelajaran</strong>
+    <ul>
+      <li>Memahami konsep Computational Thinking (CT) dan empat pilarnya</li>
+      <li>Mampu menerapkan dekomposisi untuk memecah masalah besar</li>
+      <li>Mampu mengidentifikasi pola (pattern recognition) dalam masalah</li>
+      <li>Mampu melakukan abstraksi untuk menyederhanakan masalah</li>
+      <li>Mampu merancang algoritma (algorithm design) sebagai solusi</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <div class="section-title">1. Apa Itu Computational Thinking?</div>
+    <p><strong>Computational Thinking (CT)</strong> adalah kemampuan berpikir dan memecahkan masalah dengan cara yang dapat diimplementasikan oleh komputer. CT bukan hanya untuk programmer, tetapi merupakan keterampilan berpikir fundamental yang berguna di semua bidang.</p>
+    <p>CT terdiri dari empat pilar utama:</p>
+
+    <div class="ct-grid">
+      <div class="ct-card">
+        <div class="ct-card-icon">🔨</div>
+        <div class="ct-card-title">Dekomposisi</div>
+        <div class="ct-card-body">Memecah masalah besar dan kompleks menjadi bagian-bagian yang lebih kecil dan lebih mudah diselesaikan.</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-card-icon">🔍</div>
+        <div class="ct-card-title">Pattern Recognition</div>
+        <div class="ct-card-body">Mencari persamaan, tren, dan pola dalam masalah. Pola yang dikenal memudahkan penyelesaian masalah baru.</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-card-icon">🎯</div>
+        <div class="ct-card-title">Abstraksi</div>
+        <div class="ct-card-body">Fokus pada informasi yang penting dan mengabaikan detail yang tidak relevan untuk menyelesaikan masalah.</div>
+      </div>
+      <div class="ct-card">
+        <div class="ct-card-icon">📋</div>
+        <div class="ct-card-title">Algorithm Design</div>
+        <div class="ct-card-body">Merancang langkah-langkah yang jelas, terurut, dan sistematis untuk memecahkan masalah atau mencapai tujuan.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">2. Dekomposisi <span>Memecah Masalah</span></div>
+    <p>Dekomposisi adalah proses memecah masalah yang kompleks menjadi sub-masalah yang lebih kecil. Setiap sub-masalah diselesaikan secara terpisah, kemudian solusinya digabungkan.</p>
+
+    <h4>Contoh: Program Manajemen Nilai Mahasiswa</h4>
+    <div class="algo-box">
+      <div class="algo-title">Dekomposisi Masalah</div>
+      <div><span class="cmt">{ Masalah besar: Buat sistem manajemen nilai mahasiswa }</span></div>
+      <div>&nbsp;</div>
+      <div><span class="kw2">Sub-masalah 1:</span> Input data mahasiswa (nama + nilai)</div>
+      <div class="indent1">→ Fungsi: input_data()</div>
+      <div><span class="kw2">Sub-masalah 2:</span> Simpan data dalam struktur array</div>
+      <div class="indent1">→ Data: array nama[], array nilai[]</div>
+      <div><span class="kw2">Sub-masalah 3:</span> Tampilkan semua data</div>
+      <div class="indent1">→ Prosedur: tampilkan_data()</div>
+      <div><span class="kw2">Sub-masalah 4:</span> Urutkan berdasarkan nilai</div>
+      <div class="indent1">→ Prosedur: urutkan_data() — pakai Insertion Sort</div>
+      <div><span class="kw2">Sub-masalah 5:</span> Cari mahasiswa berdasarkan nama</div>
+      <div class="indent1">→ Fungsi: cari_mahasiswa() — pakai Sequential Search</div>
+      <div><span class="kw2">Sub-masalah 6:</span> Hitung statistik nilai</div>
+      <div class="indent1">→ Fungsi: hitung_statistik()</div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">dekomposisi_demo.py</div>
+      <pre><span class="cm"># Setiap sub-masalah menjadi fungsi/prosedur tersendiri</span>
+
+<span class="kw">def</span> <span class="fn">input_data</span>(n):
+    nama = []
+    nilai = []
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(n):
+        nm = <span class="fn">input</span>(<span class="st">f"Nama ke-{i+1}: "</span>)
+        nl = <span class="fn">float</span>(<span class="fn">input</span>(<span class="st">f"Nilai ke-{i+1}: "</span>))
+        nama.<span class="fn">append</span>(nm)
+        nilai.<span class="fn">append</span>(nl)
+    <span class="kw">return</span> nama, nilai
+
+<span class="kw">def</span> <span class="fn">tampilkan_data</span>(nama, nilai):
+    <span class="fn">print</span>(<span class="st">f"{'No':<4} {'Nama':<20} {'Nilai':>6}"</span>)
+    <span class="fn">print</span>(<span class="st">"-"</span> * <span class="nm">32</span>)
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="fn">len</span>(nama)):
+        <span class="fn">print</span>(<span class="st">f"{i+1:<4} {nama[i]:<20} {nilai[i]:>6.1f}"</span>)
+
+<span class="cm"># Program utama</span>
+n = <span class="fn">int</span>(<span class="fn">input</span>(<span class="st">"Jumlah mahasiswa: "</span>))
+nama, nilai = <span class="fn">input_data</span>(n)
+<span class="fn">tampilkan_data</span>(nama, nilai)</pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">3. Pattern Recognition <span>Mengenali Pola</span></div>
+    <p>Pattern recognition adalah kemampuan mengenali kesamaan atau pola berulang dalam masalah. Dengan mengenali pola, kita dapat menerapkan solusi yang sudah diketahui.</p>
+
+    <h4>Contoh Pola dalam Pemrograman</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Pola</th><th>Masalah</th><th>Solusi Teruji</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Perulangan dengan akumulator</td><td>Hitung total, rata-rata, faktorial</td><td>FOR loop + variabel total</td></tr>
+        <tr><td>Perulangan dengan pencarian</td><td>Cari nilai maks/min, cari elemen</td><td>FOR loop + kondisi IF + variabel maks</td></tr>
+        <tr><td>Perulangan dengan pertukaran</td><td>Urutkan data</td><td>Nested FOR + IF + swap</td></tr>
+        <tr><td>Pemrosesan berulang sampai kondisi</td><td>Input validasi, baca hingga selesai</td><td>WHILE loop</td></tr>
+        <tr><td>Masalah yang terbagi dua</td><td>Cari dalam data terurut</td><td>Binary search</td></tr>
+      </tbody>
+    </table>
+
+    <div class="code-wrap">
+      <div class="code-label">pattern_akumulator.py</div>
+      <pre><span class="cm"># Pola akumulator — sama untuk total, faktorial, dll.</span>
+
+<span class="cm"># Total</span>
+total = <span class="nm">0</span>
+<span class="kw">for</span> x <span class="kw">in</span> data: total += x
+
+<span class="cm"># Faktorial n!</span>
+hasil = <span class="nm">1</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, n+<span class="nm">1</span>): hasil *= i
+
+<span class="cm"># Hitung banyak elemen memenuhi syarat</span>
+hitung = <span class="nm">0</span>
+<span class="kw">for</span> x <span class="kw">in</span> data:
+    <span class="kw">if</span> x >= <span class="nm">60</span>: hitung += <span class="nm">1</span>
+
+<span class="cm"># Pola yang SAMA: inisialisasi → loop → akumulasi</span></pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">4. Abstraksi <span>Menyederhanakan Masalah</span></div>
+    <p>Abstraksi berarti memisahkan <em>detail implementasi</em> dari <em>konsep inti</em>. Kita fokus pada "apa yang dilakukan" bukan "bagaimana caranya" pada level tertentu.</p>
+
+    <h4>Contoh Abstraksi: Fungsi sebagai Kotak Hitam</h4>
+    <div class="info">
+      <strong>Prinsip Abstraksi</strong>
+      Saat memanggil fungsi <code>bubble_sort(data)</code>, kita tidak perlu tahu detail cara kerjanya. Kita hanya perlu tahu: <em>input</em> apa yang diberikan dan <em>output</em> apa yang dihasilkan.
+    </div>
+
+    <div class="algo-box">
+      <div class="algo-title">Tiga Level Abstraksi dalam Program</div>
+      <div><span class="kw2">Level Tinggi</span> — Apa yang dilakukan program:</div>
+      <div class="indent1"><span class="cmt">{ Program mengelola nilai mahasiswa, mengurutkan, dan mencari }</span></div>
+      <div>&nbsp;</div>
+      <div><span class="kw2">Level Menengah</span> — Fungsi-fungsi yang digunakan:</div>
+      <div class="indent1">input_data() → urutkan() → tampilkan() → cari()</div>
+      <div>&nbsp;</div>
+      <div><span class="kw2">Level Rendah</span> — Detail implementasi:</div>
+      <div class="indent1"><span class="cmt">{ perbandingan arr[j] > arr[j+1], swap, loop nested, dst. }</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">abstraksi_demo.py</div>
+      <pre><span class="cm"># Level tinggi — kode utama mudah dibaca</span>
+<span class="kw">def</span> <span class="fn">main</span>():
+    data = <span class="fn">input_data</span>()         <span class="cm"># abstraksi: tidak perlu tahu detailnya</span>
+    data = <span class="fn">urutkan</span>(data)        <span class="cm"># abstraksi: tidak peduli pakai sort apa</span>
+    <span class="fn">tampilkan</span>(data)             <span class="cm"># abstraksi: tidak tahu cara formatnya</span>
+    nama = <span class="fn">input</span>(<span class="st">"Cari: "</span>)
+    <span class="fn">cari_dan_tampilkan</span>(data, nama)
+
+<span class="cm"># Level rendah — detail tersembunyi di dalam fungsi</span>
+<span class="kw">def</span> <span class="fn">urutkan</span>(data):
+    <span class="cm"># detail insertion sort tersembunyi di sini</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="nm">1</span>, <span class="fn">len</span>(data)):
+        kunci = data[i]; j = i - <span class="nm">1</span>
+        <span class="kw">while</span> j >= <span class="nm">0</span> <span class="kw">and</span> data[j] > kunci:
+            data[j+<span class="nm">1</span>] = data[j]; j -= <span class="nm">1</span>
+        data[j+<span class="nm">1</span>] = kunci
+    <span class="kw">return</span> data</pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">5. Algorithm Design <span>Merancang Algoritma</span></div>
+    <p>Algorithm design adalah proses merancang langkah-langkah sistematis untuk memecahkan masalah. Algoritma yang baik: <em>jelas</em>, <em>terhingga</em>, <em>efisien</em>, dan <em>menghasilkan output yang benar</em>.</p>
+
+    <h4>5.1 Langkah Merancang Algoritma</h4>
+    <table class="trace-table">
+      <thead>
+        <tr><th>Langkah</th><th>Aktivitas</th><th>Contoh</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1. Pahami masalah</td><td>Apa input, proses, output?</td><td>Input: array nilai. Output: nilai rata-rata</td></tr>
+        <tr><td>2. Identifikasi pola</td><td>Apakah ada masalah serupa?</td><td>Mirip pola akumulator total</td></tr>
+        <tr><td>3. Tulis pseudocode</td><td>Buat langkah algoritmik bebas bahasa</td><td>FOR i← 1 TO N DO total ← total + data[i]</td></tr>
+        <tr><td>4. Trace manual</td><td>Uji pseudocode dengan contoh kecil</td><td>Buat tabel tracing</td></tr>
+        <tr><td>5. Implementasi</td><td>Terjemahkan pseudocode ke Python</td><td>def hitung_rata(data): ...</td></tr>
+        <tr><td>6. Uji &amp; perbaiki</td><td>Jalankan dengan beragam kasus uji</td><td>Data kosong, 1 elemen, angka negatif</td></tr>
+      </tbody>
+    </table>
+
+    <h4>5.2 Studi Kasus: Algoritma Validasi Nilai</h4>
+    <div class="algo-box">
+      <div class="algo-title">Pseudocode — Input Nilai dengan Validasi</div>
+      <div><span class="kw">FUNCTION</span> InputNilaiValid(pesan : string) <span class="kw">→</span> real</div>
+      <div><span class="kw">DEKLARASI</span></div>
+      <div class="indent1">nilai : real</div>
+      <div class="indent1">valid : boolean</div>
+      <div><span class="kw">DESKRIPSI</span></div>
+      <div class="indent1">valid ← FALSE</div>
+      <div class="indent1"><span class="kw">REPEAT</span></div>
+      <div class="indent2">Tulis(pesan)</div>
+      <div class="indent2">Baca(nilai)</div>
+      <div class="indent2"><span class="kw">IF</span> nilai ≥ 0 <span class="kw">AND</span> nilai ≤ 100 <span class="kw">THEN</span></div>
+      <div class="indent3">valid ← TRUE</div>
+      <div class="indent2"><span class="kw">ELSE</span></div>
+      <div class="indent3">Tulis("Error: Nilai harus antara 0–100!")</div>
+      <div class="indent2"><span class="kw">END IF</span></div>
+      <div class="indent1"><span class="kw">UNTIL</span> valid</div>
+      <div class="indent1"><span class="kw">RETURN</span> nilai</div>
+      <div><span class="kw">END FUNCTION</span></div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">validasi_nilai.py</div>
+      <pre><span class="kw">def</span> <span class="fn">input_nilai_valid</span>(pesan):
+    <span class="cm">"""Input nilai dengan validasi range 0–100."""</span>
+    <span class="kw">while True</span>:
+        <span class="kw">try</span>:
+            nilai = <span class="fn">float</span>(<span class="fn">input</span>(pesan))
+            <span class="kw">if</span> <span class="nm">0</span> <= nilai <= <span class="nm">100</span>:
+                <span class="kw">return</span> nilai
+            <span class="kw">else</span>:
+                <span class="fn">print</span>(<span class="st">"Error: Nilai harus antara 0–100!"</span>)
+        <span class="kw">except</span> ValueError:
+            <span class="fn">print</span>(<span class="st">"Error: Masukkan angka yang valid!"</span>)
+
+<span class="cm"># Penggunaan</span>
+n = <span class="fn">input_nilai_valid</span>(<span class="st">"Masukkan nilai ujian: "</span>)
+<span class="fn">print</span>(<span class="st">f"Nilai diterima: {n}"</span>)</pre>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">6. Integrasi CT — Studi Kasus Lengkap</div>
+    <p>Berikut contoh menerapkan keempat pilar CT dalam satu masalah nyata: <strong>Program Kalkulator Nilai Akhir</strong>.</p>
+
+    <div class="note">
+      <strong>Masalah</strong>
+      Buat program untuk menghitung nilai akhir mahasiswa berdasarkan: Tugas (20%), UTS (35%), UAS (45%). Program harus memvalidasi input, menampilkan grade, dan memberi keterangan kelulusan.
+    </div>
+
+    <div class="algo-box">
+      <div class="algo-title">Penerapan CT pada Masalah</div>
+      <div><span class="kw2">Dekomposisi:</span></div>
+      <div class="indent1">1. Input nilai tugas, UTS, UAS (dengan validasi)</div>
+      <div class="indent1">2. Hitung nilai akhir berbobot</div>
+      <div class="indent1">3. Tentukan grade (A/B/C/D/E)</div>
+      <div class="indent1">4. Tentukan status lulus/tidak</div>
+      <div class="indent1">5. Tampilkan laporan</div>
+      <div>&nbsp;</div>
+      <div><span class="kw2">Pattern Recognition:</span> Pola validasi input (REPEAT-UNTIL), pola IF-ELSE berantai untuk grade</div>
+      <div><span class="kw2">Abstraksi:</span> Sembunyikan detail validasi dalam fungsi input_valid()</div>
+      <div><span class="kw2">Algorithm Design:</span> nilai_akhir = tugas*0.2 + uts*0.35 + uas*0.45</div>
+    </div>
+
+    <div class="code-wrap">
+      <div class="code-label">kalkulator_nilai.py</div>
+      <pre><span class="kw">def</span> <span class="fn">input_valid</span>(pesan, min_val=<span class="nm">0</span>, max_val=<span class="nm">100</span>):
+    <span class="kw">while True</span>:
+        <span class="kw">try</span>:
+            val = <span class="fn">float</span>(<span class="fn">input</span>(pesan))
+            <span class="kw">if</span> min_val <= val <= max_val: <span class="kw">return</span> val
+            <span class="fn">print</span>(<span class="st">f"Masukkan nilai {min_val}–{max_val}!"</span>)
+        <span class="kw">except</span> ValueError: <span class="fn">print</span>(<span class="st">"Input tidak valid!"</span>)
+
+<span class="kw">def</span> <span class="fn">hitung_nilai_akhir</span>(tugas, uts, uas):
+    <span class="kw">return</span> tugas * <span class="nm">0.20</span> + uts * <span class="nm">0.35</span> + uas * <span class="nm">0.45</span>
+
+<span class="kw">def</span> <span class="fn">tentukan_grade</span>(nilai):
+    <span class="kw">if</span>   nilai >= <span class="nm">85</span>: <span class="kw">return</span> <span class="st">'A'</span>
+    <span class="kw">elif</span> nilai >= <span class="nm">75</span>: <span class="kw">return</span> <span class="st">'B'</span>
+    <span class="kw">elif</span> nilai >= <span class="nm">60</span>: <span class="kw">return</span> <span class="st">'C'</span>
+    <span class="kw">elif</span> nilai >= <span class="nm">50</span>: <span class="kw">return</span> <span class="st">'D'</span>
+    <span class="kw">else</span>:             <span class="kw">return</span> <span class="st">'E'</span>
+
+<span class="kw">def</span> <span class="fn">tampilkan_hasil</span>(tugas, uts, uas, akhir, grade):
+    <span class="fn">print</span>(<span class="st">"="</span>*<span class="nm">35</span>)
+    <span class="fn">print</span>(<span class="st">f"  Tugas  : {tugas:.1f}  × 20% = {tugas*0.2:5.2f}"</span>)
+    <span class="fn">print</span>(<span class="st">f"  UTS    : {uts:.1f}  × 35% = {uts*0.35:5.2f}"</span>)
+    <span class="fn">print</span>(<span class="st">f"  UAS    : {uas:.1f}  × 45% = {uas*0.45:5.2f}"</span>)
+    <span class="fn">print</span>(<span class="st">f"  Nilai Akhir : {akhir:.2f}  Grade: {grade}"</span>)
+    status = <span class="st">"LULUS"</span> <span class="kw">if</span> grade != <span class="st">'E'</span> <span class="kw">else</span> <span class="st">"TIDAK LULUS"</span>
+    <span class="fn">print</span>(<span class="st">f"  Status : {status}"</span>)
+    <span class="fn">print</span>(<span class="st">"="</span>*<span class="nm">35</span>)
+
+<span class="cm"># Program Utama</span>
+tugas = <span class="fn">input_valid</span>(<span class="st">"Nilai Tugas (0-100): "</span>)
+uts   = <span class="fn">input_valid</span>(<span class="st">"Nilai UTS   (0-100): "</span>)
+uas   = <span class="fn">input_valid</span>(<span class="st">"Nilai UAS   (0-100): "</span>)
+akhir = <span class="fn">hitung_nilai_akhir</span>(tugas, uts, uas)
+grade = <span class="fn">tentukan_grade</span>(akhir)
+<span class="fn">tampilkan_hasil</span>(tugas, uts, uas, akhir, grade)</pre>
+    </div>
+    <div class="output-box">
+      <div class="out-label">Contoh Output</div>
+      ===================================<br>
+      &nbsp;&nbsp;Tugas  : 80.0  × 20% = 16.00<br>
+      &nbsp;&nbsp;UTS    : 75.0  × 35% = 26.25<br>
+      &nbsp;&nbsp;UAS    : 85.0  × 45% = 38.25<br>
+      &nbsp;&nbsp;Nilai Akhir : 80.50  Grade: B<br>
+      &nbsp;&nbsp;Status : LULUS<br>
+      ===================================
+    </div>
+  </div>
+
+  <div class="latihan">
+    <div class="latihan-title">Latihan Praktikum — Pertemuan 7</div>
+    <ol>
+      <li><strong>Dekomposisi:</strong> Pilih satu masalah nyata (misalnya: "Sistem pemesanan makanan online" atau "Sistem absensi mahasiswa"), lalu lakukan dekomposisi menjadi minimal 5 sub-masalah. Tuliskan fungsi/prosedur yang dibutuhkan untuk setiap sub-masalah.</li>
+      <li><strong>Pattern Recognition:</strong> Identifikasi pola perulangan yang ada dalam ketiga algoritma sorting yang telah dipelajari (Bubble, Selection, Insertion). Apa kesamaan struktur polanya?</li>
+      <li><strong>Abstraksi:</strong> Buat sebuah fungsi <code>proses_data(data, fungsi_sort, fungsi_cari, kunci)</code> yang menerima data, fungsi sort, dan fungsi cari sebagai parameter. Fungsi ini pertama mengurutkan data menggunakan fungsi sort yang diberikan, lalu mencari kunci menggunakan fungsi cari. Ini disebut <em>higher-order function</em>.</li>
+      <li><strong>Algorithm Design (Proyek Akhir):</strong> Rancang dan implementasikan program lengkap "Sistem Rapor Sederhana" dengan fitur: (a) input data siswa (nama + 3 nilai mata pelajaran), (b) hitung nilai rata-rata per siswa, (c) tentukan grade dan predikat (Sangat Baik/Baik/Cukup/Kurang), (d) urutkan siswa berdasarkan rata-rata nilai (gunakan sorting yang dipelajari), (e) tampilkan rapor dengan format rapi, (f) cari siswa tertentu berdasarkan nama. Gunakan pendekatan CT dalam merancang program: tulis dulu dekomposisi dan pseudocode, baru implementasi Python.</li>
+    </ol>
+  </div>
+</div>
+
+</div><!-- end main -->
+
+<script>
+function showSection(id) {
+  document.querySelectorAll('.pertemuan').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const btns = document.querySelectorAll('.nav-btn');
+  const map = { home:0, p1:1, p2:2, p3:3, p4:4, p5:5, p6:6, p7:7 };
+  if (map[id] !== undefined) btns[map[id]].classList.add('active');
+}
+</script>
+</body>
+</html>
